@@ -1,5 +1,4 @@
-
-const interval = 1000;
+let interval = 1000;
 const startInterval = 10;
 const colors1 = ["rgb(97, 97, 226)","#1f1c1f","rgb(32, 181, 186)","rgb(132, 48, 160)","rgb(49, 180, 49)","rgb(255, 255, 117)","red"]
 const colors2 = ["#9400D3","#4B0082","#0000FF","#00FF00","#FFFF00","#FF7F00","#FF0000"]
@@ -12,7 +11,6 @@ let i = 0;
 let state = 1;
 let con = document.querySelector(".wrapper");
 let list = con.children[1].children;
-// console.log(list);
 const device = /Mobile|Tablet|iPad|iPhone|Android/.test(navigator.userAgent) ? 0 : 1;
 
 for(let i in Array.from(con.children[2].children))
@@ -22,12 +20,20 @@ for(let i in Array.from(con.children[2].children))
         break;
 }
 
-
+function checkInterval() {
+    console.log("Interval",interval);
+        if(con.children[2].children[5].lastChild.value<0.5)
+            con.children[2].children[5].lastChild.value=0.5
+        if(con.children[2].children[5].lastChild.value>30)
+            con.children[2].children[5].lastChild.value=30;
+            interval = con.children[2].children[5].lastChild.value*1000;
+            stopPhasing();startPhasing();
+}
 
 function clicker(ev)
 {
     
-    if([...con.children[2].children,con.children[2],con.children[0],...con.children[0].children].includes(ev.target))
+    if([...con.children[2].children,con.children[2],con.children[0],...con.children[0].children,...con.children[2].children[5].children].includes(ev.target))
     {
         console.log("NoAction,Clicked here",ev.target.className)
         return;
@@ -94,15 +100,17 @@ function mouseleave(ev){
     startPhasing();
 }
 function popup(event) {
-    console.log('clicked on pop');
+    console.log('clicked on pop',event.target.className);
+    checkInterval();
     if(event.target.className == "back" || event.target.className ==  "popup")
     {
-        // con.children[2].style.opacity="0";
-        // setTimeout(() => {con.children[2].style.display="none";}, 300);
         con.children[2].style.opacity="0";
         con.children[2].style.visibility="hidden";
         return
     }
+    else if(["color custom","input"].includes(event.target.className))
+        return
+
     let index = Array.from(con.children[2].children).indexOf(event.target);
     console.log("Clicked on option : ",index);
     setPlatform(index);
@@ -113,11 +121,8 @@ function setPlatform(choice)
         list[i].style.backgroundColor = colec[choice][i]; 
 }
 function settings() {
-    // con.children[2].style.display="flex";
     con.children[2].style.visibility = "visible";
     con.children[2].style.opacity="1";
-    // setTimeout(()=>{con.children[2].style.opacity="1";},1000);
-
 }
 
 
@@ -128,10 +133,12 @@ function start()
     con.children[1].addEventListener("mouseleave",mouseleave);
     con.children[1].addEventListener("mouseover",hover);
     con.addEventListener("click",clicker);
+
     setPlatform(0);
     startPhasing();
     con.children[2].style.visibility = "visible";
     con.children[2].style.opacity="1";
+    con.children[2].children[5].lastChild.addEventListener("keydown",(event)=>{if(event.key == "Enter"){con.children[2].children[5].lastChild.blur(); checkInterval()}})
 }
 
 start();
