@@ -48,11 +48,11 @@ function clicker(ev)
         console.log("Clicked here",ev.target.className)
     }
     else{
-        // console.log("Else block : ",ev.target.className)
-        // let tempcontainer = getComputedStyle(ev.target);
-        // let color = tempcontainer.backgroundColor;
-        // con.style.backgroundColor = color;
-        // i = Array.from(con.children[1].children).indexOf(ev.target);
+        console.log("Else block : ",ev.target.className)
+        let tempcontainer = getComputedStyle(ev.target);
+        let color = tempcontainer.backgroundColor;
+        con.style.backgroundColor = color;
+        i = Array.from(con.children[1].children).indexOf(ev.target);
     }
 }
 function hover(ev)
