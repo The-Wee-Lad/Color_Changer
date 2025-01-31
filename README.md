@@ -1,1 +1,1 @@
-Jsut Did ti for hte lesning Css and JS two most useless things in the wprld.
+Jsut Did it for learningg Css and JS two most useless things in the wprld.
